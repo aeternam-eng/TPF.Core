@@ -1,0 +1,82 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool: Azure.Pool.Stronzo
+
+variables:
+  buildDirectory: '$(Build.ArtifactStagingDirectory)/build'
+  outputZipDir: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+  downloadedPackageDirectory: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+  solution: TPF.Core.sln
+
+stages:
+  - stage: "build"
+    displayName: "Build"
+    jobs:
+      - job: "build"
+        displayName: "Build"
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use Dotnet 6.0.x"
+            inputs:
+              packageType: "sdk"
+              version: "6.0.x"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Restore"
+            inputs:
+              command: "restore"
+              projects: $(solution)
+
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Build"
+            inputs:
+              command: "custom"
+              custom: "build"
+              projects: $(solution)
+              arguments: "-c $(configuration) --no-restore"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Dotnet Publish"
+            inputs:
+              command: "publish"
+              publishWebProjects: false
+              projects: $(solution)
+              arguments: '-c $(configuration) -o "$(buildDirectory)" --no-build --no-restore'
+              zipAfterPublish: false
+
+          - task: ArchiveFiles@2
+            displayName: 'Archive files'
+            inputs:
+              rootFolderOrFile: $(buildDirectory)/s
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(outputZipDir)
+              replaceExistingArchive: true
+              
+          - publish: $(outputZipDir)
+            displayName: 'Publish artifact'
+            artifact: drop
+
+  - stage: deploy
+    displayName: 'Deploy Web App'
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: Deploy
+        steps:
+          # Downloads to $(Pipeline.Workspace)/current
+          - download: current
+            artifact: drop
+            displayName: "Download build artifacts"
+          
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: AzureRM
+              azureSubscription: 'Azure para Estudantes (26956325-be9b-439d-b44f-c8a6540154e2)'
+              appType: 'webAppLinux'
+              DeploymentType: zipDeploy
+              WebAppName: 'stronzo-tapegandofogo-core-dev'
+              packageForLinux: '$(downloadedPackageDirectory)'
