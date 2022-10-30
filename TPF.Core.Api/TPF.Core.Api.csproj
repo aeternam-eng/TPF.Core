@@ -7,7 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TPF.Core.Borders\TPF.Core.Borders.csproj" />
+    <ProjectReference Include="..\TPF.Core.Repositories\TPF.Core.Repositories.csproj" />
+    <ProjectReference Include="..\TPF.Core.Shared\TPF.Core.Shared.csproj" />
+    <ProjectReference Include="..\TPF.Core.UseCases\TPF.Core.UseCases.csproj" />
   </ItemGroup>
 
 </Project>
