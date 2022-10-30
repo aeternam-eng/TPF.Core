@@ -34,7 +34,12 @@ namespace TPF.Core.Repositories
             using var httpResponse = await _httpClient.PostAsync(uri, content);
             var responseBody = await httpResponse.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<GetFireResponse>(responseBody);
+            return JsonSerializer.Deserialize<GetFireResponse>(responseBody, new JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Converters = { new JsonStringEnumConverter() }
+            });
         }
     }
 }
