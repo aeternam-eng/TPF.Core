@@ -10,6 +10,8 @@ namespace TPF.Core.Api.Configurations
         public static IServiceCollection AddRepositories(this IServiceCollection services) =>
             services.AddSingleton<IRepositoryHelper, RepositoryHelper>()
             .AddSingleton<IUserRepository, UserRepository>()
-            .AddSingleton<IFireRepository, FireRepository>();
+            .AddSingleton<IFireRepository, FireRepository>()
+            .AddSingleton<IFireDataRepository, FireDataRepository>()
+            .AddSingleton<IDeviceRepository, DeviceRepository>();
     }
 }

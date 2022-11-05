@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TPF.Core.Api.Models;
 using TPF.Core.Borders.Dtos;
@@ -8,7 +7,7 @@ using TPF.Core.Shared.Models;
 
 namespace TPF.Core.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class FireController : Controller
@@ -26,9 +25,9 @@ namespace TPF.Core.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetFireResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
-        public async Task<IActionResult> GetFire([FromForm] IFormFile request)
+        public async Task<IActionResult> GetFire([FromForm] IFormFile request, [FromForm] Guid deviceId)
         {
-            var file = new GetFireRequest { Img = request };
+            var file = new GetFireRequest { Img = request, DeviceId = deviceId };
 
             var response = await _getFireUseCase.Execute(file);
             return _actionResultConverter.Convert(response);

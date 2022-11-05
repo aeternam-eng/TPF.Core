@@ -7,5 +7,6 @@ namespace TPF.Core.Borders.Dtos
     public class GetFireRequest
     {
         public IFormFile Img { get; set; }
+        public Guid DeviceId { get; set; }
     }
 }

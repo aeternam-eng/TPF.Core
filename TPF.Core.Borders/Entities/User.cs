@@ -1,6 +1,5 @@
 ﻿#nullable disable
 
-
 namespace TPF.Core.Borders.Entities;
 
 public record User

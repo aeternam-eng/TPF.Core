@@ -17,7 +17,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetUserByEmail(string email)
     {
-        const string sql = @"SELECT * FROM public.usuario
+        const string sql = @"SELECT * FROM users
                                 WHERE email = @email";
 
         using IDbConnection connection = _helper.GetConnection();
@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User> GetUserById(Guid id)
     {
-        const string sql = @"SELECT * FROM public.usuario
+        const string sql = @"SELECT * FROM users
                                 WHERE usuario_Uuid = @id";
 
         using IDbConnection connection = _helper.GetConnection();
