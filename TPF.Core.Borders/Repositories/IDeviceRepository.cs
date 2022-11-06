@@ -1,7 +1,10 @@
-﻿namespace TPF.Core.Borders.Repositories
+﻿using TPF.Core.Borders.Entities;
+
+namespace TPF.Core.Borders.Repositories
 {
     public interface IDeviceRepository
     {
-        Task Insert(bool isFogoBicho, decimal probability);
+        Task UpdateDeviceName(Guid deviceId, string newName);
+        Task<IEnumerable<Device>> GetAllByUserId(Guid userId);
     }
 }

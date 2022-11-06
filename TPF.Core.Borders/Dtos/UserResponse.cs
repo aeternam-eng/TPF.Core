@@ -1,6 +1,5 @@
 ﻿#nullable disable
 
-
 namespace TPF.Core.Borders.Dtos;
 
 public class UserResponse
