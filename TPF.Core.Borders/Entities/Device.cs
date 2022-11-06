@@ -2,9 +2,9 @@
 {
     public record Device
     {
-        public Guid Id { get; set; }
-        public Guid User_Id { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public Guid Id { get; init; }
+        public Guid User_Id { get; init; }
+        public decimal Latitude { get; init; }
+        public decimal Longitude { get; init; }
     }
 }

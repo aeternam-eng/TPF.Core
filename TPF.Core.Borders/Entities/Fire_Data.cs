@@ -2,10 +2,10 @@
 {
     public record Fire_Data
     {
-        public Guid Id { get; set; }
-        public Guid Device_Id { get; set; }
-        public bool Is_fogo_bicho { get; set; }
-        public decimal Image_Fire_Probability { get; set; }
-        public DateTime Date { get; set; }
+        public Guid Id { get; init; }
+        public Guid Device_Id { get; init; }
+        public bool Is_Fogo_Bixo { get; init; }
+        public decimal Image_Fire_Probability { get; init; }
+        public DateTime Date_Time { get; init; }
     }
 }

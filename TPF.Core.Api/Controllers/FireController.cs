@@ -14,11 +14,15 @@ namespace TPF.Core.Api.Controllers
     {
         private readonly IActionResultConverter _actionResultConverter;
         private readonly IGetFireUseCase _getFireUseCase;
+        private readonly IGetFiresUseCase _getFiresUseCase;
 
-        public FireController(IActionResultConverter actionResultConverter, IGetFireUseCase getFireUseCase)
+        public FireController(IActionResultConverter actionResultConverter, 
+            IGetFireUseCase getFireUseCase, 
+            IGetFiresUseCase getFiresUseCase)
         {
             _actionResultConverter = actionResultConverter;
             _getFireUseCase = getFireUseCase;
+            _getFiresUseCase = getFiresUseCase;
         }
 
         [HttpPost]
@@ -31,6 +35,15 @@ namespace TPF.Core.Api.Controllers
 
             var response = await _getFireUseCase.Execute(file);
             return _actionResultConverter.Convert(response);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetFiresResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
+        public async Task<IActionResult> GetFires([FromRoute] Guid id)
+        {
+            return _actionResultConverter.Convert( await _getFiresUseCase.Execute(id));
         }
     }
 }

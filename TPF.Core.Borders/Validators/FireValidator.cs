@@ -8,8 +8,7 @@ namespace TPF.Core.Borders.Validators
         public FireValidator()
         {
             RuleFor(x => x.DeviceId)
-                .NotEmpty()
-                .WithMessage("DeviceId can't be null or empty");
+                .SetValidator(new GuidValidator());
             RuleFor(x => x.Img)
                 .NotEmpty()
                 .WithMessage("Image can't be null or empty");

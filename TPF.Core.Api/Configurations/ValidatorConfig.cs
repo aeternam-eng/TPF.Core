@@ -6,6 +6,7 @@ namespace TPF.Core.Api.Configurations
     {
         public static IServiceCollection AddValidators(this IServiceCollection services) =>
             services.AddSingleton<AuthRequestValidator>()
-            .AddSingleton<FireValidator>();
+            .AddSingleton<FireValidator>()
+            .AddSingleton<GuidValidator>();
     }
 }
