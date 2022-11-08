@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserById(Guid id)
     {
         const string sql = @"SELECT * FROM users
-                                WHERE usuario_Uuid = @id";
+                                WHERE id = @id";
 
         using IDbConnection connection = _helper.GetConnection();
 
