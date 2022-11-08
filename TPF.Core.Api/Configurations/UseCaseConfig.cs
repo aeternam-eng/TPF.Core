@@ -1,4 +1,5 @@
-﻿using TPF.Core.Borders.UseCases.Auth;
+﻿using TPF.Core.Borders.UseCases;
+using TPF.Core.Borders.UseCases.Auth;
 using TPF.Core.Borders.UseCases.Fire;
 using TPF.Core.Borders.UseCases.User;
 using TPF.Core.UseCases.Auth;
@@ -13,6 +14,8 @@ namespace TPF.Core.Api.Configurations
             services.AddSingleton<IAuthenticationUseCase, AuthenticationUseCase>()
             .AddSingleton<IGetUserByIdUseCase, GetUserByIdUseCase>()
             .AddSingleton<IGetFireUseCase, GetFireUseCase>()
+            .AddSingleton<IGetUserDevicesUseCase, GetUserDevicesUseCase>()
+            .AddSingleton<IUpdateDeviceNameUseCase, UpdateDeviceNameUseCase>()
             .AddSingleton<IGetFiresUseCase, GetFiresUseCase>();
     }
 }

@@ -1,4 +1,6 @@
-﻿using TPF.Core.Borders.Repositories;
+﻿using Dapper;
+using TPF.Core.Borders.Entities;
+using TPF.Core.Borders.Repositories;
 using TPF.Core.Borders.Repositories.Helpers;
 
 namespace TPF.Core.Repositories
@@ -12,10 +14,22 @@ namespace TPF.Core.Repositories
             _helper = helper;
         }
 
-        public async Task Insert(bool isFogoBicho, decimal probability)
+        public async Task UpdateDeviceName(Guid deviceId, string newName)
         {
-            const string sql = @"INSERT INTO Device
-									()";
+            const string sql = "UPDATE device SET name=@name WHERE id=@deviceId";
+
+            using var connection = _helper.GetConnection();
+
+            await connection.ExecuteAsync(sql, new { deviceId = deviceId, name = newName });
+        }
+
+        public async Task<IEnumerable<Device>> GetAllByUserId(Guid userId)
+        {
+            const string sql = "SELECT * FROM device WHERE user_id=@userId";
+
+            using var connection = _helper.GetConnection();
+
+            return await connection.QueryAsync<Device>(sql, new { userId = userId });
         }
     }
 }
