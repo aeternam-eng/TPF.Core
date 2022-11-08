@@ -18,12 +18,12 @@ namespace TPF.Core.UseCases.Fire
             _deviceRepository = deviceRepository;
         }
 
-        public async Task<UseCaseResponse<GetFiresResponse>> Execute(Guid request)
+        public async Task<UseCaseResponse<IEnumerable<FireDto>>> Execute(Guid request)
         {
             var measurements = await _fireDataRepository.GetAllByUserId(request);
             var devices = await _deviceRepository.GetAllByUserId(request);
 
-            var fireDtos = measurements.Join(devices, m => m.Device_Id, d => d.Id, (measurement, device) => new FireDto
+            var userFires = measurements.Join(devices, m => m.Device_Id, d => d.Id, (measurement, device) => new FireDto
             {
                 Is_fogo_bicho = measurement.Is_Fogo_Bixo,
                 Date = measurement.Date_Time,
@@ -39,12 +39,7 @@ namespace TPF.Core.UseCases.Fire
                 Image_Fire_Probability = measurement.Image_Fire_Probability
             });
 
-            var response = new GetFiresResponse
-            {
-                FireDtos = fireDtos
-            };
-
-            return UseCaseResponse<GetFiresResponse>.Success(response);
+            return UseCaseResponse<IEnumerable<FireDto>>.Success(userFires);
         }
     }
 }

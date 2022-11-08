@@ -3,5 +3,5 @@ using TPF.Core.Borders.Shared.Helpers;
 
 namespace TPF.Core.Borders.UseCases.Fire
 {
-    public interface IGetFiresUseCase : IUseCase<Guid, GetFiresResponse> { }
+    public interface IGetFiresUseCase : IUseCase<Guid, IEnumerable<FireDto>> { }
 }

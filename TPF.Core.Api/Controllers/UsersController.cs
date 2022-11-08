@@ -50,7 +50,6 @@ namespace TPF.Core.Api.Controllers
         }
 
         [HttpGet("{userId}/fires")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetFiresResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
         public async Task<IActionResult> GetFires([FromRoute] Guid userId)
