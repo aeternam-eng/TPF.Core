@@ -7,16 +7,15 @@ using TPF.Core.Shared.Models;
 
 namespace TPF.Core.Api.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class FireController : Controller
     {
         private readonly IActionResultConverter _actionResultConverter;
-        private readonly IGetFireUseCase _getFireUseCase;
+        private readonly ICreateMeasurementUseCase _getFireUseCase;
 
         public FireController(IActionResultConverter actionResultConverter,
-            IGetFireUseCase getFireUseCase)
+            ICreateMeasurementUseCase getFireUseCase)
         {
             _actionResultConverter = actionResultConverter;
             _getFireUseCase = getFireUseCase;
@@ -26,7 +25,7 @@ namespace TPF.Core.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetFireResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
-        public async Task<IActionResult> GetFire([FromForm] IFormFile request, [FromForm] Guid deviceId)
+        public async Task<IActionResult> CreateMeasurement([FromForm] IFormFile request, [FromForm] Guid deviceId)
         {
             var file = new GetFireRequest { Img = request, DeviceId = deviceId };
 

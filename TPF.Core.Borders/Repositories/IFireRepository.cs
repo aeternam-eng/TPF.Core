@@ -5,6 +5,6 @@ namespace TPF.Core.Borders.Repositories
 {
     public interface IFireRepository
     {
-        Task<GetFireResponse> GetFire(IFormFile img);
+        Task<GetFireResponse> AnalyzeImage(IFormFile img);
     }
 }

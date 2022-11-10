@@ -7,4 +7,5 @@ public class FireDto
     public bool Is_fogo_bicho { get; init; }
     public decimal Image_Fire_Probability { get; init; }
     public DateTime Date { get; init; }
+    public string? ImageUrl { get;init; }
 }

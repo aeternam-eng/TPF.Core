@@ -36,8 +36,9 @@ namespace TPF.Core.UseCases.Fire
                     Longitude = device.Longitude
                 },
                 Id = measurement.Id,
-                Image_Fire_Probability = measurement.Image_Fire_Probability
-            });
+                Image_Fire_Probability = measurement.Image_Fire_Probability,
+                ImageUrl = measurement.Image_Url
+            }).OrderByDescending(dto => dto.Date);
 
             return UseCaseResponse<IEnumerable<FireDto>>.Success(userFires);
         }

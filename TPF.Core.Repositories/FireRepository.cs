@@ -20,7 +20,7 @@ namespace TPF.Core.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<GetFireResponse> GetFire(IFormFile img)
+        public async Task<GetFireResponse> AnalyzeImage(IFormFile img)
         {
             var uri = $"{_applicationConfig.Endpoint.ApiIa}";
 

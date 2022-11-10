@@ -14,14 +14,14 @@ namespace TPF.Core.Repositories
             _helper = helper;
         }
 
-        public async Task Insert(bool isFogoBicho, decimal probability, Guid deviceId)
+        public async Task Insert(bool isFogoBicho, decimal probability, Guid deviceId, string? imageUrl)
         {
             string sql = @"INSERT INTO fire_data
-                            (id, device_id, is_fogo_bixo, image_fire_probability, date_time)
-                        VALUES(@Id, @DeviceId, @IsFogoBixo, @ImageFireProbability, @Date)";
+                            (id, device_id, is_fogo_bixo, image_fire_probability, date_time, image_url)
+                        VALUES(@Id, @DeviceId, @IsFogoBixo, @ImageFireProbability, @Date, @ImageUrl)";
 
             using var connection = _helper.GetConnection();
-            await connection.ExecuteAsync(sql, new { Id = Guid.NewGuid(), IsFogoBixo = isFogoBicho, ImageFireProbability = probability, DeviceId = deviceId, Date = DateTime.UtcNow });
+            await connection.ExecuteAsync(sql, new { Id = Guid.NewGuid(), IsFogoBixo = isFogoBicho, ImageFireProbability = probability, DeviceId = deviceId, Date = DateTime.UtcNow, ImageUrl = imageUrl });
         }
 
         public async Task<IEnumerable<Fire_Data>> GetAllByUserId(Guid id)

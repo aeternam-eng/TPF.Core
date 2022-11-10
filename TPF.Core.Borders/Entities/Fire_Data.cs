@@ -7,5 +7,6 @@
         public bool Is_Fogo_Bixo { get; init; }
         public decimal Image_Fire_Probability { get; init; }
         public DateTime Date_Time { get; init; }
+        public string? Image_Url { get; init; } = null;
     }
 }

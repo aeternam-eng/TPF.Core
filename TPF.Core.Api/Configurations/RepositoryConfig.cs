@@ -12,6 +12,7 @@ namespace TPF.Core.Api.Configurations
             .AddSingleton<IUserRepository, UserRepository>()
             .AddSingleton<IFireRepository, FireRepository>()
             .AddSingleton<IFireDataRepository, FireDataRepository>()
+            .AddSingleton<IBlobRepository, BlobRepository>()
             .AddSingleton<IDeviceRepository, DeviceRepository>();
     }
 }

@@ -13,7 +13,7 @@ namespace TPF.Core.Api.Configurations
         public static IServiceCollection AddUseCases(this IServiceCollection services) =>
             services.AddSingleton<IAuthenticationUseCase, AuthenticationUseCase>()
             .AddSingleton<IGetUserByIdUseCase, GetUserByIdUseCase>()
-            .AddSingleton<IGetFireUseCase, GetFireUseCase>()
+            .AddSingleton<ICreateMeasurementUseCase, CreateMeasurementUseCase>()
             .AddSingleton<IGetUserDevicesUseCase, GetUserDevicesUseCase>()
             .AddSingleton<IUpdateDeviceNameUseCase, UpdateDeviceNameUseCase>()
             .AddSingleton<IGetFiresUseCase, GetFiresUseCase>();
