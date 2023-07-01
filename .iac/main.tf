@@ -44,7 +44,7 @@ resource "azurerm_linux_web_app" "webapp" {
     minimum_tls_version = "1.2"
     always_on           = false
     application_stack {
-      dotnet_version = 6
+      dotnet_version = 6.0
     }
   }
 }
