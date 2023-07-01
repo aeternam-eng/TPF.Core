@@ -21,8 +21,8 @@ terraform {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.resource_group_location
+  name     = var.resource_group_config.name
+  location = var.resource_group_config.location
 }
 
 resource "azurerm_service_plan" "appserviceplan" {
