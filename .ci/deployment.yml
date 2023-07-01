@@ -26,7 +26,7 @@ parameters:
     type: string
 
 stages:
-  - stage: deploy ${{ parameters.environment }}
+  - stage: ${{ parameters.environment }}
     displayName: ${{ parameters.environment }}
     dependsOn: ${{ parameters.dependsOn }}
     condition: succeeded()
