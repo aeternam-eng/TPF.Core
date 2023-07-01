@@ -74,19 +74,15 @@ stages:
               ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
-          - task: TerraformTaskV4@4
-            displayName: Terraform Plan
-            inputs:
-              command: plan
-              commandOptions: -out ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan -var-file terraform-shared.tfvars -var-file terraform-${{ parameters.shortEnv }}.tfvars
-              workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
+          - script: |
+              terraform plan -no-color -input=false -out ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan -var-file terraform-shared.tfvars -var-file terraform-${{ parameters.shortEnv }}.tfvars
+            displayName: "Terraform Plan"
+            workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
-          - task: TerraformTaskV4@4
-            displayName: Terraform Plan
-            inputs:
-              command: apply
-              commandOptions: ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan
-              workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
+          - script: |
+              terraform apply -no-color -input=false ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan
+            displayName: "Terraform Plan"
+            workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - task: AzureRmWebAppDeployment@4
             inputs:
