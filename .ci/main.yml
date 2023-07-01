@@ -72,3 +72,4 @@ stages:
         - group: "Stronzo - TaPegandoFogo"
       subscription: "Azure para Estudantes (asdasd)"
       serviceName: $(serviceName)
+      terraformFilesPath: terraform-files.zip
