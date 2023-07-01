@@ -70,6 +70,8 @@ stages:
           - script: |
               terraform init -no-color -input=false --backend-config=tf-backend.conf
             displayName: "Terraform Init"
+            env:
+              ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - task: TerraformTaskV4@4
