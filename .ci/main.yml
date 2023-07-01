@@ -79,6 +79,8 @@ stages:
       dependsOn: Build
       variables:
         - group: "Stronzo - TaPegandoFogo"
+        - name: ARM_ACCESS_KEY
+          value: $(IacStorageAccountAccessKey)
       subscription: "Azure for Students(2fcfcc58-7a29-4b99-838f-93fa031f18a5)"
       serviceName: $(serviceName)
       packageDirectory: $(downloadedPackageDirectory)

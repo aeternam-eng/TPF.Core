@@ -33,8 +33,6 @@ stages:
     dependsOn: ${{ parameters.dependsOn }}
     condition: succeeded()
     pool: ${{ parameters.pool }}
-    variables:
-      ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
 
     jobs:
       - job: Deployment
