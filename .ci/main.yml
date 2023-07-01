@@ -3,13 +3,15 @@ trigger:
     include:
       - main
 
-pool: Azure.Pool.Stronzo
-
 variables:
-  buildDirectory: '$(Build.ArtifactStagingDirectory)/build'
+  buildDirectory: "$(Build.ArtifactStagingDirectory)/build"
   outputZipDir: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
   downloadedPackageDirectory: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+  serviceName: stronzo-tapegandofogo-core
   solution: TPF.Core.sln
+  poolName: Azure.Pool.Stronzo
+
+pool: $(poolName)
 
 stages:
   - stage: "build"
@@ -48,35 +50,25 @@ stages:
               zipAfterPublish: false
 
           - task: ArchiveFiles@2
-            displayName: 'Archive files'
+            displayName: "Archive files"
             inputs:
               rootFolderOrFile: $(buildDirectory)/s
               includeRootFolder: false
               archiveType: zip
               archiveFile: $(outputZipDir)
               replaceExistingArchive: true
-              
+
           - publish: $(outputZipDir)
-            displayName: 'Publish artifact'
+            displayName: "Publish artifact"
             artifact: drop
 
-  - stage: deploy
-    displayName: 'Deploy Web App'
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-      - job: Deploy
-        steps:
-          # Downloads to $(Pipeline.Workspace)/current
-          - download: current
-            artifact: drop
-            displayName: "Download build artifacts"
-          
-          - task: AzureRmWebAppDeployment@4
-            inputs:
-              ConnectionType: AzureRM
-              azureSubscription: 'Azure para Estudantes (26956325-be9b-439d-b44f-c8a6540154e2)'
-              appType: 'webAppLinux'
-              DeploymentType: zipDeploy
-              WebAppName: 'stronzo-tapegandofogo-core-dev'
-              packageForLinux: '$(downloadedPackageDirectory)'
+  - template: deployment.yml
+    parameters:
+      pool: $(poolName)
+      environment: "Development"
+      shortEnv: "dev"
+      dependsOn: "Build"
+      variables:
+        - group: "Stronzo - TaPegandoFogo"
+      subscription: "Azure para Estudantes (asdasd)"
+      serviceName: $(serviceName)
