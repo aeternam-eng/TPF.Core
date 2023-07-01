@@ -37,6 +37,8 @@ stages:
     jobs:
       - job: Deployment
         displayName: Release ${{ parameters.environment }}
+        env:
+          ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
         variables: ${{ parameters.variables }}
         steps:
           - download: current
@@ -70,8 +72,6 @@ stages:
           - script: |
               terraform init -no-color -input=false --backend-config=tf-backend.conf
             displayName: "Terraform Init"
-            env:
-              ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - script: |
