@@ -46,6 +46,11 @@ resource "azurerm_linux_web_app" "webapp" {
   }
 }
 
+resource "random_password" "adminpassword" {
+  length  = 16
+  special = true
+}
+
 resource "azurerm_postgresql_flexible_server" "databaseserver" {
   name = "db-${var.service_config.name}-${var.service_config.short_env}"
 
@@ -58,7 +63,8 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
 
   backup_retention_days = 7
 
-  administrator_login = "stronzo"
+  administrator_login    = "stronzo"
+  administrator_password = random_password.adminpassword.result
 }
 
 resource "azurerm_storage_account" "storageaccount" {
