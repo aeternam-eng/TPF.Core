@@ -6,6 +6,6 @@ azurerm_provider_config = {
 }
 
 service_config = {
-  name     = "#{ServiceName}#"
-  shortEnv = "#{EnvironmentShort}#"
+  name     = "#{SERVICE_NAME}#"
+  shortEnv = "#{SHORT_ENV}#"
 }

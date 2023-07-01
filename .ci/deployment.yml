@@ -7,9 +7,9 @@ parameters:
   - name: environment
     type: string
     values:
-      - "Development"
-      - "Staging"
-      - "Production"
+      - Development
+      - Staging
+      - Production
   - name: shortEnv
     type: string
     values:
@@ -52,8 +52,8 @@ stages:
           - task: replacetokens@3
             displayName: "Replace tokens in Terraform Files"
             env:
-              ServiceName: ${{ parameters.serviceName }}
-              EnvironmentShort: ${{ parameters.shortEnv }}
+              SERVICE_NAME: ${{ parameters.serviceName }}
+              SHORT_ENV: ${{ parameters.shortEnv }}
             inputs:
               rootDirectory: "$(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}"
               actionOnMissing: fail
