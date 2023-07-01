@@ -52,8 +52,8 @@ stages:
           - task: replacetokens@3
             displayName: "Replace tokens in Terraform Files"
             env:
-              - ShortEnv: ${{ parameters.shortEnv }}
-              - ServiceName: ${{ parameters.serviceName }}
+              ShortEnv: ${{ parameters.shortEnv }}
+              ServiceName: ${{ parameters.serviceName }}
             inputs:
               rootDirectory: "$(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}"
               actionOnMissing: fail
