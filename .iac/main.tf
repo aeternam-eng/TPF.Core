@@ -53,7 +53,7 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
   location            = azurerm_resource_group.rg.location
 
   sku_name   = "B1_Standard_B1ms"
-  version    = "14"
+  version    = "13"
   storage_mb = 32768
 
   backup_retention_days = 7
