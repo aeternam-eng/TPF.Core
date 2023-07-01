@@ -69,7 +69,7 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
 
   administrator_login    = "stronzo"
   administrator_password = random_password.adminpassword.result
-  zone                   = "1"
+  zone                   = "3"
 }
 
 resource "azurerm_storage_account" "storageaccount" {
