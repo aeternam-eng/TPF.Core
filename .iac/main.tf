@@ -58,7 +58,7 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
 
   backup_retention_days = 7
 
-  administrator_login = stronzo
+  administrator_login = "stronzo"
 }
 
 resource "azurerm_storage_account" "storageaccount" {
