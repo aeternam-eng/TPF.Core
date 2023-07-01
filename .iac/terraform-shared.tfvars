@@ -4,3 +4,8 @@ azurerm_provider_config = {
   client_secret   = "#{AzureSvcAccountClientSecret}#"
   tenant_id       = "#{AzureTenantId}#"
 }
+
+service_config = {
+  name     = "#{ServiceName}#"
+  shortEnv = "#{EnvironmentShort}#"
+}

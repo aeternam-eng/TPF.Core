@@ -1,11 +1,6 @@
 resource_group_config = {
   location = "brazilsouth"
-  name     = "rg-stronzo-tapegandofogo"
-}
-
-service_config = {
-  name     = "stronzo-tapegandofogo-core"
-  shortEnv = "dev"
+  name     = "rg-stronzo-tapegandofogo-${var.service_config.shortEnv}"
 }
 
 appserviceplan_config = {
