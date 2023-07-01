@@ -65,11 +65,11 @@ stages:
   - template: deployment.yml
     parameters:
       pool: $(poolName)
-      environment: "Development"
-      shortEnv: "dev"
-      dependsOn: "Build"
+      environment: Development
+      shortEnv: dev
+      dependsOn: Build
       variables:
-        - group: "Stronzo - TaPegandoFogo"
-      subscription: "Azure para Estudantes (asdasd)"
+        - group: Stronzo - TaPegandoFogo
+      subscription: Azure para Estudantes (2fcfcc58-7a29-4b99-838f-93fa031f18a5)
       serviceName: $(serviceName)
       terraformFilesPath: terraform-files.zip
