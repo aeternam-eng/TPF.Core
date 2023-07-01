@@ -56,7 +56,7 @@ stages:
             displayName: Terraform Init
             inputs:
               command: init
-              backendServiceArm: $(subscription)
+              backendServiceArm: ${{ parameters.subscription }}
               backendAzureRmStorageAccountName: "sa-stronzo-iac"
               backendAzureRmContainerName: "tfstates"
               backendAzureRmKey: ${{ parameters.shortEnv }}${{ parameters.serviceName }}.tfstate
@@ -79,7 +79,7 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: AzureRM
-              azureSubscription: $(subscription)
+              azureSubscription: ${{ parameters.subscription }}
               appType: "webAppLinux"
               DeploymentType: zipDeploy
               WebAppName: "stronzo-tapegandofogo-core-dev"
