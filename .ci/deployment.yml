@@ -24,6 +24,8 @@ parameters:
     type: string
   - name: terraformFilesPath
     type: string
+  - name: packageDirectory
+    type: string
 
 stages:
   - stage: ${{ parameters.environment }}
@@ -82,5 +84,5 @@ stages:
               azureSubscription: ${{ parameters.subscription }}
               appType: "webAppLinux"
               DeploymentType: zipDeploy
-              WebAppName: "stronzo-tapegandofogo-core-dev"
-              packageForLinux: "$(downloadedPackageDirectory)"
+              WebAppName: ${{ parameters.serviceName }}-${{ parameters.shortEnv }}
+              packageForLinux: ${{ parameters.packageDirectory }}

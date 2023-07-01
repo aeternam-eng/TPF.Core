@@ -5,7 +5,7 @@ trigger:
 
 variables:
   buildDirectory: "$(Build.ArtifactStagingDirectory)/build"
-  outputZipDir: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+  outputDir: $(Build.ArtifactStagingDirectory)
   downloadedPackageDirectory: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
   serviceName: stronzo-tapegandofogo-core
   solution: TPF.Core.sln
@@ -55,10 +55,19 @@ stages:
               rootFolderOrFile: $(buildDirectory)/s
               includeRootFolder: false
               archiveType: zip
-              archiveFile: $(outputZipDir)
+              archiveFile: $(outputDir)/$(Build.BuildId).zip
               replaceExistingArchive: true
 
-          - publish: $(outputZipDir)
+          - task: ArchiveFiles@2
+            displayName: "Zip IaC Files"
+            inputs:
+              rootFolderOrFile: "$(Build.SourcesDirectory)/.iac"
+              includeRootFolder: false
+              archiveType: "zip"
+              archiveFile: "$(outputDir)/terraform-files.zip"
+              replaceExistingArchive: false
+
+          - publish: $(outputDir)
             displayName: "Publish artifact"
             artifact: drop
 
@@ -70,6 +79,7 @@ stages:
       dependsOn: Build
       variables:
         - group: "Stronzo - TaPegandoFogo"
-      subscription: 'Azure for Students(2fcfcc58-7a29-4b99-838f-93fa031f18a5)'
+      subscription: "Azure for Students(2fcfcc58-7a29-4b99-838f-93fa031f18a5)"
       serviceName: $(serviceName)
+      packageDirectory: $(downloadedPackageDirectory)
       terraformFilesPath: terraform-files.zip
