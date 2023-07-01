@@ -13,9 +13,9 @@ parameters:
   - name: shortEnv
     type: string
     values:
-      - "dev"
-      - "hml"
-      - "prd"
+      - dev
+      - hml
+      - prd
   - name: dependsOn
     type: string
   - name: serviceName
