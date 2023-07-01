@@ -46,6 +46,19 @@ resource "azurerm_linux_web_app" "webapp" {
   }
 }
 
+resource "azurerm_postgresql_flexible_server" "databaseserver" {
+  name = "db-${var.service_config.name}-${var.service_config.short_env}"
+
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
+  sku_name   = B1_Standard_B1ms
+  version    = "14"
+  storage_mb = 32768
+
+  backup_retention_days = 7
+}
+
 resource "azurerm_storage_account" "storageaccount" {
   name                     = "satpfcore${var.service_config.short_env}"
   resource_group_name      = azurerm_resource_group.rg.name
