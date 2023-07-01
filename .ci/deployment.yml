@@ -33,12 +33,12 @@ stages:
     dependsOn: ${{ parameters.dependsOn }}
     condition: succeeded()
     pool: ${{ parameters.pool }}
+    variables:
+      ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
 
     jobs:
       - job: Deployment
         displayName: Release ${{ parameters.environment }}
-        env:
-          ARM_ACCESS_KEY: $(IacStorageAccountAccessKey)
         variables: ${{ parameters.variables }}
         steps:
           - download: current
