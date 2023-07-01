@@ -82,7 +82,7 @@ stages:
 
           - script: |
               terraform apply -no-color -input=false ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan
-            displayName: "Terraform Plan"
+            displayName: "Terraform Apply"
             env:
               ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
