@@ -1,7 +1,6 @@
 parameters:
   - name: variables
     type: object
-    default: {}
   - name: pool
     type: string
   - name: environment
@@ -70,16 +69,22 @@ stages:
           - script: |
               terraform init -no-color -input=false --backend-config=tf-backend.conf
             displayName: "Terraform Init"
+            env:
+              ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - script: |
               terraform plan -no-color -input=false -out ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan -var-file terraform-shared.tfvars -var-file terraform-${{ parameters.shortEnv }}.tfvars
             displayName: "Terraform Plan"
+            env:
+              ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - script: |
               terraform apply -no-color -input=false ${{ parameters.serviceName }}-${{ parameters.shortEnv }}-plan
             displayName: "Terraform Plan"
+            env:
+              ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
             workingDirectory: $(Pipeline.Workspace)/drop/${{ parameters.shortEnv }}
 
           - task: AzureRmWebAppDeployment@4
