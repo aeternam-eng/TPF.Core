@@ -3,7 +3,7 @@ variable "resource_location" {
 }
 
 variable "environment" {
-  name = string
+  type = string
 }
 
 variable "appserviceplan_config" {
