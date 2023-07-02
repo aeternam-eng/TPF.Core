@@ -1,4 +1,4 @@
-resource_config {
+resource_config = {
   name        = "core"
   namespace   = "tapegandofogo"
   location    = "brazilsouth"
