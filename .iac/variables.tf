@@ -1,9 +1,10 @@
-variable "resource_location" {
-  type = string
-}
-
-variable "environment" {
-  type = string
+variable "resource_config" {
+  type = object({
+    environment = string
+    name        = string
+    location    = string
+    namespace   = string
+  })
 }
 
 variable "appserviceplan_config" {
