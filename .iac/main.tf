@@ -1,13 +1,7 @@
+// Injected from pipeline
 provider "azurerm" {
-  subscription_id            = var.azurerm_provider_config.subscription_id
-  client_id                  = var.azurerm_provider_config.client_id
-  client_secret              = var.azurerm_provider_config.client_secret
-  tenant_id                  = var.azurerm_provider_config.tenant_id
-  skip_provider_registration = true
-
   features {}
 }
-
 
 terraform {
   required_providers {
@@ -17,27 +11,29 @@ terraform {
     }
   }
 
-  // The storage account access key should be injected through pipeline env variables
+  // Injected from pipeline
   backend "azurerm" {}
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_config.name
-  location = var.resource_group_config.location
+module "conventions" {
+  source      = "https://sastronzo.blob.core.windows.net/terraform-modules/naming-conventions.zip"
+  environment = var.environment
+  namespace   = var.namespace_name
+  appName     = "core"
 }
 
 resource "azurerm_service_plan" "appserviceplan" {
-  name                = "asp-${var.service_config.name}-${var.service_config.short_env}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  name                = module.conventions.app_config.app_service_plan_name
+  location            = var.resource_location
+  resource_group_name = module.conventions.resource_group_name
   os_type             = var.appserviceplan_config.os_type
   sku_name            = var.appserviceplan_config.sku_name
 }
 
 resource "azurerm_linux_web_app" "webapp" {
-  name                = "${var.service_config.name}-${var.service_config.short_env}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  name                = module.conventions.app_config.web_app_name
+  location            = var.resource_location
+  resource_group_name = module.conventions.resource_group_name
   service_plan_id     = azurerm_service_plan.appserviceplan.id
   https_only          = true
 
@@ -56,10 +52,10 @@ resource "random_password" "adminpassword" {
 }
 
 resource "azurerm_postgresql_flexible_server" "databaseserver" {
-  name = "db-${var.service_config.name}-${var.service_config.short_env}"
+  name = module.conventions.app_config.database_name
 
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = module.conventions.resource_group_name
+  location            = var.resource_location
 
   sku_name   = "B_Standard_B1ms"
   version    = "13"
@@ -73,9 +69,9 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
 }
 
 resource "azurerm_storage_account" "storageaccount" {
-  name                     = "satpfcore${var.service_config.short_env}"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
+  name                     = "satpfcore${var.environment}"
+  resource_group_name      = module.conventions.resource_group_name
+  location                 = var.resource_location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
