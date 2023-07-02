@@ -69,7 +69,7 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
 }
 
 resource "azurerm_storage_account" "storageaccount" {
-  name                     = "satpfcore${var.environment}"
+  name                     = "satpfcore${var.resource_config.environment}"
   resource_group_name      = module.conventions.resource_group_name
   location                 = azurerm_linux_web_app.webapp.location
   account_tier             = "Standard"
