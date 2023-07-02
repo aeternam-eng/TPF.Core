@@ -29,6 +29,7 @@ stages:
           terraformFilesPath: $(Build.SourcesDirectory)/.iac
 
       - job: Deployment
+        dependsOn: IaC
         displayName: Release ${{ parameters.environment }}
         steps:
           - download: current
