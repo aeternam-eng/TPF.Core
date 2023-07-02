@@ -16,12 +16,6 @@ parameters:
   - name: packageDirectory
     type: string
 
-resources:
-  repositories:
-    - repository: templates
-      type: git
-      name: Stronzo.TPF.Infrastructure
-
 stages:
   - stage: ${{ parameters.environment }}
     displayName: ${{ parameters.environment }}

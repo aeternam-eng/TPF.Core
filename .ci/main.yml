@@ -3,6 +3,14 @@ trigger:
     include:
       - main
 
+pool: Azure.Pool.Stronzo
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Stronzo.TPF.Infrastructure
+
 variables:
   - group: Stronzo - General IaC
   - group: Stronzo - TPF.Core - Dev
@@ -18,8 +26,6 @@ variables:
     value: core
   - name: solution
     value: TPF.Core.sln
-
-pool: Azure.Pool.Stronzo
 
 stages:
   - stage: Build
