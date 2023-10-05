@@ -75,4 +75,10 @@ resource "azurerm_linux_web_app" "webapp" {
       dotnet_version = "6.0"
     }
   }
+
+  connection_string {
+    name  = DefaultConnection
+    type  = PostgreSQL
+    value = "User ID=stronzo;Password=${azurerm_postgresql_flexible_server.databaseserver.admin_password};Host=${azurerm_postgresql_flexible_server.databaseserver.fully_qualified_domain_name};Port=5432;Database=postgres;Include Error Detail=true"
+  }
 }
