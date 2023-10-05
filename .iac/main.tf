@@ -76,9 +76,7 @@ resource "azurerm_linux_web_app" "webapp" {
     }
   }
 
-  connection_string {
-    name  = "DefaultConnection"
-    type  = "PostgreSQL"
-    value = "User ID=stronzo;Password=${azurerm_postgresql_flexible_server.databaseserver.administrator_password};Host=${azurerm_postgresql_flexible_server.databaseserver.fqdn};Port=5432;Database=postgres;Include Error Detail=true"
+  app_settings = {
+    "ASPNETCORE_CONNECTION_STRINGS__DEFAULT_CONNECTION" : "User ID=stronzo;Password=${azurerm_postgresql_flexible_server.databaseserver.administrator_password};Host=${azurerm_postgresql_flexible_server.databaseserver.fqdn};Port=5432;Database=postgres;Include Error Detail=true"
   }
 }
