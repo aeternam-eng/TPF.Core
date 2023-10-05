@@ -68,9 +68,12 @@ resource "azurerm_linux_web_app" "webapp" {
   service_plan_id     = azurerm_service_plan.appserviceplan.id
   https_only          = true
 
-  app_settings = {
-    "ASPNETCORE_CONNECTIONSTRINGS__DEFAULTCONNECTION" : azurerm_postgresql_flexible_server.databaseserver.administrator_password
-  }
+  app_settings = merge(
+    azurerm_linux_web_app.webapp.app_settings,
+    {
+      "ASPNETCORE_CONNECTIONSTRINGS__DEFAULTCONNECTION" : azurerm_postgresql_flexible_server.databaseserver.administrator_password
+    }
+  )
 
   site_config {
     minimum_tls_version = "1.2"
