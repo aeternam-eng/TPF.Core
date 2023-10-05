@@ -39,13 +39,6 @@ resource "azurerm_postgresql_flexible_server" "databaseserver" {
   zone                   = "3"
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "database_firewall" {
-  server_id        = azurerm_postgresql_flexible_server.databaseserver.id
-  name             = "${module.conventions.app_config.database_name}-firewall"
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
-}
-
 resource "azurerm_storage_account" "storageaccount" {
   name                     = "satpfcore${var.resource_config.environment}"
   resource_group_name      = module.conventions.resource_group_name
