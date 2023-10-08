@@ -32,7 +32,7 @@ namespace TPF.Core.UseCases.Fire
             var result = await _fireRepository.AnalyzeImage(request.Img);
 
             using var imageStream = request.Img.OpenReadStream();
-            var imageUrl = await _blobRepository.UploadBlob(imageStream, $"fire-image-{request.DeviceId}-{DateTime.UtcNow.ToString("o")}.jpg");
+            var imageUrl = await _blobRepository.UploadBlob(imageStream, $"fire-image-{request.DeviceId}-{DateTime.UtcNow:o}.jpg");
 
             await _fireDataRepository.Insert(result.IsFogoBixo, result.Probability, request.DeviceId, imageUrl);
 

@@ -36,7 +36,7 @@ public class UseCaseResponse<T>
     public static UseCaseResponse<T> Accepted(T result) => new(UseCaseResponseKind.DataAccepted, result);
     public static UseCaseResponse<T> Accepted(T result, string resultId) => new(UseCaseResponseKind.DataAccepted, result, resultId);
     public static UseCaseResponse<T> Unavailable(T result) => new(UseCaseResponseKind.Unavailable, result) { ErrorMessage = "Service Unavailable" };
-    public static UseCaseResponse<T> NotFound() => NotFound(new ErrorMessage[] { new ErrorMessage(ErrorCodes.NotFound, ErrorMessages.NotFound) });
+    public static UseCaseResponse<T> NotFound() => NotFound(new ErrorMessage[] { new(ErrorCodes.NotFound, ErrorMessages.NotFound) });
     public static UseCaseResponse<T> NotFound(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.NotFound, "Data not found", errors);
     public static UseCaseResponse<T> NotFound(string errorMessage)
     {
@@ -51,10 +51,10 @@ public class UseCaseResponse<T>
         var errors = new[] { error };
         return new(UseCaseResponseKind.BadRequest, errorMessage, errors);
     }
-    public static UseCaseResponse<T> BadGateway() => BadGateway(new ErrorMessage[] { new ErrorMessage(ErrorCodes.BadGateway, ErrorMessages.UnhandledError) });
+    public static UseCaseResponse<T> BadGateway() => BadGateway(new ErrorMessage[] { new(ErrorCodes.BadGateway, ErrorMessages.UnhandledError) });
     public static UseCaseResponse<T> BadGateway(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.BadGateway, "Bad Gateway", errors);
     public static UseCaseResponse<T> InternalServerError(IEnumerable<ErrorMessage> errors) => new(UseCaseResponseKind.InternalServerError, "Internal Server Error", errors);
-    public static UseCaseResponse<T> InternalServerError() => InternalServerError(new ErrorMessage[] { new ErrorMessage(ErrorCodes.UnhandledError, ErrorMessages.UnhandledError) });
+    public static UseCaseResponse<T> InternalServerError() => InternalServerError(new ErrorMessage[] { new(ErrorCodes.UnhandledError, ErrorMessages.UnhandledError) });
     public static UseCaseResponse<T> InternalServerError(string errorMessage)
     {
         var error = new ErrorMessage(ErrorCodes.UnhandledError, errorMessage);

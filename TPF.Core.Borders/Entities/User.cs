@@ -5,7 +5,7 @@ namespace TPF.Core.Borders.Entities;
 public record User
 {
     public Guid Id { get; init; }
-    public string Nome { get; init; }
+    public string Name { get; init; }
     public string Email { get; init; }
     public string Secret { get; init; }
 
@@ -13,7 +13,7 @@ public record User
         new()
         {
             Id = Id,
-            Name = Nome,
+            Name = Name,
             Email = Email
         };
 }

@@ -18,9 +18,9 @@ public class BlobRepository : IBlobRepository
     {
         try
         {
-            StorageSharedKeyCredential storageCredentials = new StorageSharedKeyCredential(_appConfig.AzureStorage.AccountName, _appConfig.AzureStorage.AccountKey);
+            StorageSharedKeyCredential storageCredentials = new(_appConfig.AzureStorage.AccountName, _appConfig.AzureStorage.AccountKey);
 
-            Uri blobUri = new Uri($"https://{_appConfig.AzureStorage.AccountName}.blob.core.windows.net/{_appConfig.AzureStorage.ContainerName}/{fileName}");
+            Uri blobUri = new($"https://{_appConfig.AzureStorage.AccountName}.blob.core.windows.net/{_appConfig.AzureStorage.ContainerName}/{fileName}");
 
             var blobServiceClient = new BlobServiceClient(blobUri, storageCredentials);
             var blobClient = blobServiceClient.GetBlobContainerClient(_appConfig.AzureStorage.ContainerName);
@@ -29,7 +29,7 @@ public class BlobRepository : IBlobRepository
 
             return blobUri.ToString();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return null;
         }

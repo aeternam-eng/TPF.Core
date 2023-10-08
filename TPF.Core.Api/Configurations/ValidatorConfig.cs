@@ -1,4 +1,5 @@
 ﻿using TPF.Core.Borders.Validators;
+using TPF.Core.Borders.Validators.User;
 
 namespace TPF.Core.Api.Configurations
 {
@@ -7,6 +8,7 @@ namespace TPF.Core.Api.Configurations
         public static IServiceCollection AddValidators(this IServiceCollection services) =>
             services.AddSingleton<AuthRequestValidator>()
             .AddSingleton<FireValidator>()
-            .AddSingleton<GuidValidator>();
+            .AddSingleton<GuidValidator>()
+            .AddSingleton<UserValidator>();
     }
 }
