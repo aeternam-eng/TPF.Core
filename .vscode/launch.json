@@ -14,7 +14,8 @@
             "cwd": "${workspaceFolder}/TPF.Core.Api",
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Local"
+                "ASPNETCORE_ENVIRONMENT": "Local",
+                "ASPNETCORE_URLS": "https://0.0.0.0:7107"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

@@ -13,7 +13,8 @@ public class FireController : Controller
     private readonly IActionResultConverter _actionResultConverter;
     private readonly ICreateMeasurementUseCase _getFireUseCase;
 
-    public FireController(IActionResultConverter actionResultConverter,
+    public FireController(
+        IActionResultConverter actionResultConverter,
         ICreateMeasurementUseCase getFireUseCase)
     {
         _actionResultConverter = actionResultConverter;
@@ -24,9 +25,19 @@ public class FireController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetFireResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
-    public async Task<IActionResult> CreateMeasurement([FromForm] IFormFile request, [FromForm] Guid deviceId)
+    public async Task<IActionResult> CreateMeasurement(
+        [FromForm] IFormFile request,
+        [FromForm] Guid deviceId,
+        [FromForm] decimal temperature,
+        [FromForm] decimal humidity)
     {
-        var file = new GetFireRequest { Img = request, DeviceId = deviceId };
+        var file = new CreateMeasurementRequest
+        {
+            Img = request,
+            DeviceId = deviceId,
+            Temperature = temperature,
+            Humidity = humidity
+        };
 
         var response = await _getFireUseCase.Execute(file);
         return _actionResultConverter.Convert(response);

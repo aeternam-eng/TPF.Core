@@ -64,4 +64,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(options =>
+{
+    options
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+});
+
+app.UseRequestLocalization(options =>
+{
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");
+});
+
 app.Run();

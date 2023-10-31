@@ -25,7 +25,7 @@ namespace TPF.Core.UseCases.Fire
             _blobRepository = blobRepository;
         }
 
-        public async Task<UseCaseResponse<GetFireResponse>> Execute(GetFireRequest request)
+        public async Task<UseCaseResponse<GetFireResponse>> Execute(CreateMeasurementRequest request)
         {
             _fireValidator.ValidateAndThrow(request);
 

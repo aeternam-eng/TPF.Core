@@ -3,7 +3,7 @@ using TPF.Core.Borders.Dtos;
 
 namespace TPF.Core.Borders.Validators
 {
-    public class FireValidator : AbstractValidator<GetFireRequest>
+    public class FireValidator : AbstractValidator<CreateMeasurementRequest>
     {
         public FireValidator()
         {
