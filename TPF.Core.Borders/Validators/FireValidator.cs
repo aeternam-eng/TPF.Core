@@ -12,9 +12,9 @@ namespace TPF.Core.Borders.Validators
             RuleFor(x => x.Img)
                 .NotEmpty()
                 .WithMessage("Image can't be null or empty");
-            RuleFor(x => x.Umidity)
+            RuleFor(x => x.Humidity)
                 .GreaterThanOrEqualTo(0)
-                .WithMessage("Umidity can't be negative.");
+                .WithMessage("Humidity can't be negative.");
         }
     }
 }

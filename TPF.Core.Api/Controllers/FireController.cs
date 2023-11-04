@@ -13,7 +13,8 @@ public class FireController : Controller
     private readonly IActionResultConverter _actionResultConverter;
     private readonly ICreateMeasurementUseCase _getFireUseCase;
 
-    public FireController(IActionResultConverter actionResultConverter,
+    public FireController(
+        IActionResultConverter actionResultConverter,
         ICreateMeasurementUseCase getFireUseCase)
     {
         _actionResultConverter = actionResultConverter;
@@ -27,15 +28,15 @@ public class FireController : Controller
     public async Task<IActionResult> CreateMeasurement(
         [FromForm] IFormFile request,
         [FromForm] Guid deviceId,
-        [FromForm] decimal umidity,
-        [FromForm] decimal temperature)
+        [FromForm] decimal temperature,
+        [FromForm] decimal humidity)
     {
         var file = new CreateMeasurementRequest
         {
             Img = request,
             DeviceId = deviceId,
             Temperature = temperature,
-            Umidity = umidity
+            Humidity = humidity
         };
 
         var response = await _getFireUseCase.Execute(file);
