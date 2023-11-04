@@ -6,5 +6,6 @@ namespace TPF.Core.Borders.Repositories
     {
         Task UpdateDeviceName(Guid deviceId, string newName);
         Task<IEnumerable<Device>> GetAllByUserId(Guid userId);
+        Task<Device> GetById(Guid id);
     }
 }

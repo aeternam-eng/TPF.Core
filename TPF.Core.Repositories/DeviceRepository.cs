@@ -20,7 +20,7 @@ namespace TPF.Core.Repositories
 
             using var connection = _helper.GetConnection();
 
-            await connection.ExecuteAsync(sql, new { deviceId = deviceId, name = newName });
+            await connection.ExecuteAsync(sql, new { deviceId, name = newName });
         }
 
         public async Task<IEnumerable<Device>> GetAllByUserId(Guid userId)
@@ -29,7 +29,16 @@ namespace TPF.Core.Repositories
 
             using var connection = _helper.GetConnection();
 
-            return await connection.QueryAsync<Device>(sql, new { userId = userId });
+            return await connection.QueryAsync<Device>(sql, new { userId });
+        }
+
+        public async Task<Device> GetById(Guid id)
+        {
+            const string sql = "SELECT * FROM device WHERE id=@Id";
+
+            using var connection = _helper.GetConnection();
+
+            return await connection.QueryFirstAsync<Device>(sql, new { id });
         }
     }
 }

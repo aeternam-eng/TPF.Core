@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:14.0
+    image: postgres
     restart: unless-stopped
     container_name: db-stronzo-tpf-core
     environment:

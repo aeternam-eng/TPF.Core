@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using TPF.Core.Borders.Dtos;
+﻿using TPF.Core.Borders.Dtos;
+using TPF.Core.Borders.Entities;
 
 namespace TPF.Core.Borders.Repositories
 {
     public interface IFireRepository
     {
-        Task<GetFireResponse> AnalyzeImage(IFormFile img);
+        Task<GetFireResponse> AnalyzeImage(MeasurementData data);
     }
 }

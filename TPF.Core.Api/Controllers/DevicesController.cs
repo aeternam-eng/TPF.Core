@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TPF.Core.Api.Models;
+using TPF.Core.Borders.Dtos;
 using TPF.Core.Borders.UseCases;
+using TPF.Core.Borders.UseCases.Devices;
 using TPF.Core.Shared.Models;
 
 namespace TPF.Core.Api.Controllers;
@@ -13,18 +15,33 @@ public class DevicesController : Controller
 {
     private readonly IActionResultConverter _actionResultConverter;
     private readonly IUpdateDeviceNameUseCase _updateDeviceNameUseCase;
+    private readonly IGetDevicesByUserIdUseCase _getDevicesByUserIdUseCase;
 
-    public DevicesController(IActionResultConverter actionResultConverter, IUpdateDeviceNameUseCase updateDeviceNameUseCase)
+    public DevicesController(IActionResultConverter actionResultConverter,
+                             IUpdateDeviceNameUseCase updateDeviceNameUseCase,
+                             IGetDevicesByUserIdUseCase getDevicesByUserIdUseCase)
     {
         _actionResultConverter = actionResultConverter;
         _updateDeviceNameUseCase = updateDeviceNameUseCase;
+        _getDevicesByUserIdUseCase = getDevicesByUserIdUseCase;
     }
 
     [HttpPatch("{deviceId}/name")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DeviceResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
     public async Task<IActionResult> UpdateDeviceName([FromRoute] Guid deviceId, [FromBody] UpdateDeviceNameRequest request)
     {
         return _actionResultConverter.Convert(await _updateDeviceNameUseCase.Execute(request with { DeviceId = deviceId }), true);
+    }
+
+    [HttpGet("{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetDevicesResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorMessage[]))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
+    public async Task<IActionResult> GetDevicesByUser([FromRoute] Guid userId)
+    {
+        return _actionResultConverter.Convert(await _getDevicesByUserIdUseCase.Execute(userId));
     }
 }

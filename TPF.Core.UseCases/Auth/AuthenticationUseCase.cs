@@ -38,7 +38,8 @@ public class AuthenticationUseCase : IAuthenticationUseCase
             var response = new AuthResponse()
             {
                 UserId = user.Id,
-                Token = _tokenService.GenerateToken(user)
+                Token = _tokenService.GenerateToken(user),
+                UserName = user.Name
             };
 
             return UseCaseResponse<AuthResponse>.Success(response);

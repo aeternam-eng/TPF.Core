@@ -1,44 +1,49 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text;
+using Newtonsoft.Json;
 using TPF.Core.Borders.Dtos;
+using TPF.Core.Borders.Entities;
 using TPF.Core.Borders.Repositories;
 using TPF.Core.Shared.Configurations;
 
 #nullable disable
 
-namespace TPF.Core.Repositories
+namespace TPF.Core.Repositories;
+
+public class FireRepository : IFireRepository
 {
-    public class FireRepository : IFireRepository
+    private readonly ApplicationConfig _applicationConfig;
+
+    public FireRepository(ApplicationConfig applicationConfig)
     {
-        private readonly HttpClient _httpClient;
-        private readonly ApplicationConfig _applicationConfig;
+        _applicationConfig = applicationConfig;
+    }
 
-        public FireRepository(ApplicationConfig applicationConfig, HttpClient httpClient)
+    public async Task<GetFireResponse> AnalyzeImage(MeasurementData data)
+    {
+        var obj = new
         {
-            _applicationConfig = applicationConfig;
-            _httpClient = httpClient;
-        }
+            data.Lon,
+            data.Lat,
+            data.Temp,
+            data.Umi,
+            data.File
+        };
 
-        public async Task<GetFireResponse> AnalyzeImage(IFormFile img)
+        var httpContent = new StringContent(JsonConvert.SerializeObject(obj, new JsonSerializerSettings()), Encoding.UTF8, "application/json");
+
+        var httpClient = new HttpClient
         {
-            var uri = $"{_applicationConfig.Endpoint.ApiIa}";
+            BaseAddress = new Uri(_applicationConfig.Endpoint.ApiIa),
+        };
 
-            using var stream = img.OpenReadStream();
-            using var content = new MultipartFormDataContent
-            {
-                { new StreamContent(stream), "file", "img.jpg" }
-            };
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            using var httpResponse = await _httpClient.PostAsync(uri, content);
-            var responseBody = await httpResponse.Content.ReadAsStringAsync();
+        var response = await httpClient.PostAsync("/api/analysis", httpContent);
 
-            return JsonSerializer.Deserialize<GetFireResponse>(responseBody, new JsonSerializerOptions
-            {
-                AllowTrailingCommas = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Converters = { new JsonStringEnumConverter() }
-            });
-        }
+        var result = response.Content;
+        var dataStream = result.ReadAsStream();
+        var reader = new StreamReader(dataStream);
+        var objResponse = reader.ReadToEnd();
+        return JsonConvert.DeserializeObject<GetFireResponse>(objResponse.ToString());
     }
 }

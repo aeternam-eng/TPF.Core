@@ -5,7 +5,9 @@ namespace TPF.Core.Borders.Dtos
     public record GetFireResponse
     {
         public bool IsFogoBixo { get; init; }
-        public decimal Probability { get; init; }
-        public string ImageUrl { get; init; }
+        public decimal Fogo { get; init; }
+        public decimal Neutra { get; init; }
+        public decimal Fumaça { get; init; }
+        public decimal EnvironmentalFireProbability { get; init; }
     }
 }

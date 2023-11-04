@@ -41,6 +41,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{userId}/devices")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<DeviceResponse>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
     public async Task<IActionResult> GetUserDevices([FromRoute] Guid userId)
@@ -49,6 +50,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{userId}/fires")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<FireDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorMessage[]))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorMessage[]))]
     public async Task<IActionResult> GetFires([FromRoute] Guid userId)

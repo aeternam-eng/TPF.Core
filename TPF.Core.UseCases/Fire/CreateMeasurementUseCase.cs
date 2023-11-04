@@ -12,29 +12,34 @@ namespace TPF.Core.UseCases.Fire
         private readonly IFireRepository _fireRepository;
         private readonly IFireDataRepository _fireDataRepository;
         private readonly IBlobRepository _blobRepository;
+        private readonly IDeviceRepository _deviceRepository;
         private readonly FireValidator _fireValidator;
 
         public CreateMeasurementUseCase(IFireRepository fireRepository,
-            IFireDataRepository deviceRepository,
+            IFireDataRepository fireDataRepository,
             FireValidator fireValidator,
-            IBlobRepository blobRepository)
+            IBlobRepository blobRepository,
+            IDeviceRepository deviceRepository)
         {
             _fireRepository = fireRepository;
-            _fireDataRepository = deviceRepository;
+            _fireDataRepository = fireDataRepository;
             _fireValidator = fireValidator;
             _blobRepository = blobRepository;
+            _deviceRepository = deviceRepository;
         }
 
-        public async Task<UseCaseResponse<GetFireResponse>> Execute(GetFireRequest request)
+        public async Task<UseCaseResponse<GetFireResponse>> Execute(CreateMeasurementRequest request)
         {
             _fireValidator.ValidateAndThrow(request);
 
-            var result = await _fireRepository.AnalyzeImage(request.Img);
+            var device = await _deviceRepository.GetById(request.DeviceId);
+
+            var result = await _fireRepository.AnalyzeImage(request.ToModel(device.Latitude, device.Longitude));
 
             using var imageStream = request.Img.OpenReadStream();
             var imageUrl = await _blobRepository.UploadBlob(imageStream, $"fire-image-{request.DeviceId}-{DateTime.UtcNow:o}.jpg");
 
-            await _fireDataRepository.Insert(result.IsFogoBixo, result.Probability, request.DeviceId, imageUrl);
+            await _fireDataRepository.Insert(result, imageUrl, device.Id);
 
             return UseCaseResponse<GetFireResponse>.Success(result with { ImageUrl = imageUrl });
         }
