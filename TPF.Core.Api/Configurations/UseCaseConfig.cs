@@ -16,7 +16,6 @@ namespace TPF.Core.Api.Configurations
             .AddSingleton<ICreateMeasurementUseCase, CreateMeasurementUseCase>()
             .AddSingleton<IGetUserDevicesUseCase, GetUserDevicesUseCase>()
             .AddSingleton<IUpdateDeviceNameUseCase, UpdateDeviceNameUseCase>()
-            .AddSingleton<IGetFiresUseCase, GetFiresUseCase>()
             .AddSingleton<ICreateUserUseCase, CreateUserUseCase>();
     }
 }

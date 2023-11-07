@@ -1,11 +1,13 @@
 ﻿namespace TPF.Core.Borders.Dtos;
 
-public class FireDto
+public record FireDto
 {
     public Guid Id { get; init; }
-    public DeviceResponse Device { get; init; } = default!;
     public bool Is_fogo_bicho { get; init; }
-    public decimal Image_Fire_Probability { get; init; }
-    public DateTime Date { get; init; }
-    public string? ImageUrl { get;init; }
+    public decimal Environmental_fire_probability { get; init; }
+    public DateTime Date_time { get; init; }
+    public decimal Temperature { get; init; }
+    public decimal Humidity { get; init; }
+    public decimal Fire { get; init; }
+    public decimal Smoke { get; init; }
 }

@@ -41,7 +41,7 @@ namespace TPF.Core.UseCases.Fire
 
             await _fireDataRepository.Insert(result, imageUrl, device.Id);
 
-            return UseCaseResponse<GetFireResponse>.Success(result with { ImageUrl = imageUrl });
+            return UseCaseResponse<GetFireResponse>.Success(result);
         }
     }
 }
