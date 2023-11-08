@@ -7,5 +7,5 @@ public record DeviceResponse
     public decimal Latitude { get; init; }
     public decimal Longitude { get; init; }
     public string Name { get; init; } = string.Empty;
-    public IEnumerable<FireDto> Fires { get; init; } = default!;
+    public List<FireDto> Fires { get; set; } = new();
 }

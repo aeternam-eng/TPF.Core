@@ -54,13 +54,12 @@ namespace TPF.Core.Repositories
                     if (deviceResponseDictionary.TryGetValue(deviceResponse.Id, out var device))
                         deviceResponse = device;
                     else
-                    {
                         deviceResponseDictionary.Add(deviceResponse.Id, deviceResponse);
-                    }
 
                     if (fireDto is not null)
                     {
-                        deviceResponse.Fires.Where(fire => fire.Id != fireDto.Id).Select(fire => fire = fireDto);
+                        if (!deviceResponse.Fires.Any(fire => fire.Id == fireDto.Id))
+                            deviceResponse.Fires.Add(fireDto);
                     }
 
                     return deviceResponse;
