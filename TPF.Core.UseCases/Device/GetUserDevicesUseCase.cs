@@ -25,7 +25,7 @@ namespace TPF.Core.UseCases.Fire
                 User_Id = deviceEntity.User_Id,
                 Latitude = deviceEntity.Latitude,
                 Longitude = deviceEntity.Longitude,
-                Fires = deviceEntity.Fires,
+                Fires = deviceEntity.Fires.OrderByDescending(x =>x.Date_time).ToList(),
             });
 
             return UseCaseResponse<IEnumerable<DeviceResponse>>.Success(response);
