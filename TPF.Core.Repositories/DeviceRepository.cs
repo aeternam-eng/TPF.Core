@@ -33,6 +33,7 @@ namespace TPF.Core.Repositories
                                     d.longitude,
                                     d.name,
                                     f.id,
+                                    f.device_id,
                                     f.is_fogo_bixo,
                                     f.temperature,
                                     f.humidity,
