@@ -39,7 +39,16 @@ namespace TPF.Core.UseCases.Fire
             using var imageStream = request.Img.OpenReadStream();
             var imageUrl = await _blobRepository.UploadBlob(imageStream, $"fire-image-{request.DeviceId}-{DateTime.UtcNow:o}.jpg");
 
-            await _fireDataRepository.Insert(result, device.Id);
+            await _fireDataRepository.Insert(new
+            {
+                IsFogoBixo = result.IsFogoBixo,
+                EnvironmentalFireProbability = result.EnvironmentalFireProbability,
+                DeviceId = device.Id,
+                Fire = result.Fogo,
+                Smoke = result.Fumaça,
+                Humidity = request.Humidity,
+                Temperature = request.Temperature
+            });
 
             return UseCaseResponse<GetFireResponse>.Success(result);
         }

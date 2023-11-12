@@ -5,6 +5,6 @@ namespace TPF.Core.Borders.Repositories
 {
     public interface IFireDataRepository
     {
-        Task Insert(GetFireResponse model, Guid deviceId);
+        Task Insert(dynamic model);
     }
 }
