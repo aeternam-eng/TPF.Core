@@ -47,7 +47,7 @@ namespace TPF.Core.Repositories
             var deviceResponseDictionary = new Dictionary<Guid, DeviceResponse>();
 
             using var connection = _helper.GetConnection();
-            return await connection.QueryAsync<Device, FireDto, DeviceResponse>(
+            await connection.QueryAsync<Device, FireDto, DeviceResponse>(
                 sql,
                 map: (device, fireDto) =>
                 {
@@ -63,7 +63,7 @@ namespace TPF.Core.Repositories
                             Fires = new List<FireDto>()
                         };
 
-                    deviceResponseDictionary.TryAdd(response.Id, response);
+                    deviceResponseDictionary.TryAdd(device.Id, response);
 
                     if (fireDto is not null)
                     {
@@ -76,7 +76,10 @@ namespace TPF.Core.Repositories
                 new { userId },
                 null,
                 true,
-                splitOn: "id");
+                splitOn: "id"
+            );
+
+            return deviceResponseDictionary.Values;
         }
 
         public async Task<Device> GetById(Guid id)

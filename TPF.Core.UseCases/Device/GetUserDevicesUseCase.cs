@@ -18,14 +18,14 @@ namespace TPF.Core.UseCases.Fire
         {
             var result = await _deviceRepository.GetAllByUserId(request);
 
-            var response = result.Select(deviceEntity => new DeviceResponse
+            var response = result.DistinctBy(d => d.Id).Select(deviceEntity => new DeviceResponse
             {
                 Id = deviceEntity.Id,
                 Name = deviceEntity.Name,
                 User_Id = deviceEntity.User_Id,
                 Latitude = deviceEntity.Latitude,
                 Longitude = deviceEntity.Longitude,
-                Fires = deviceEntity.Fires.OrderByDescending(x =>x.Date_time).ToList(),
+                Fires = deviceEntity.Fires.OrderByDescending(x => x.Date_time).ToList(),
             });
 
             return UseCaseResponse<IEnumerable<DeviceResponse>>.Success(response);
