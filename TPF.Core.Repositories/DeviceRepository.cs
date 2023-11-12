@@ -47,22 +47,31 @@ namespace TPF.Core.Repositories
             var deviceResponseDictionary = new Dictionary<Guid, DeviceResponse>();
 
             using var connection = _helper.GetConnection();
-            return await connection.QueryAsync<DeviceResponse, FireDto, DeviceResponse>(
+            return await connection.QueryAsync<Device, FireDto, DeviceResponse>(
                 sql,
-                map: (deviceResponse, fireDto) =>
+                map: (device, fireDto) =>
                 {
-                    if (deviceResponseDictionary.TryGetValue(deviceResponse.Id, out var device))
-                        deviceResponse = device;
-                    else
-                        deviceResponseDictionary.Add(deviceResponse.Id, deviceResponse);
+                    var response = deviceResponseDictionary.TryGetValue(device.Id, out var deviceResponse)
+                        ? deviceResponse
+                        : new DeviceResponse()
+                        {
+                            Id = device.Id,
+                            Latitude = device.Latitude,
+                            Longitude = device.Longitude,
+                            Name = device.Name,
+                            User_Id = device.User_Id,
+                            Fires = new List<FireDto>()
+                        };
+
+                    deviceResponseDictionary.TryAdd(response.Id, response);
 
                     if (fireDto is not null)
                     {
-                        if (!deviceResponse.Fires.Any(fire => fire.Id == fireDto.Id))
-                            deviceResponse.Fires.Add(fireDto);
+                        if (!response.Fires.Any(fire => fire.Id == fireDto.Id))
+                            response.Fires.Add(fireDto);
                     }
 
-                    return deviceResponse;
+                    return response;
                 },
                 new { userId },
                 null,
