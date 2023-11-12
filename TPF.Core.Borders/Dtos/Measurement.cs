@@ -1,9 +1,10 @@
 ﻿namespace TPF.Core.Borders.Dtos;
 
-public record FireDto
+public record Measurement
 {
     public Guid Id { get; init; }
-    public bool Is_fogo_bicho { get; init; }
+    public Guid Device_id { get; init; }
+    public bool Is_fogo_bixo { get; init; }
     public decimal Environmental_fire_probability { get; init; }
     public DateTime Date_time { get; init; }
     public decimal Temperature { get; init; }

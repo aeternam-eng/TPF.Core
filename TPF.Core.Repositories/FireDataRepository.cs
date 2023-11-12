@@ -14,7 +14,7 @@ namespace TPF.Core.Repositories
             _helper = helper;
         }
 
-        public async Task Insert(dynamic model)
+        public async Task Insert(Measurement model)
         {
             string sql = @"INSERT INTO fire_data
                             (device_id, is_fogo_bixo, environmental_fire_probability, temperature, humidity, fire, smoke)
@@ -24,14 +24,18 @@ namespace TPF.Core.Repositories
             await connection.ExecuteAsync(sql,
                                           new
                                           {
-                                              model.IsFogoBixo,
-                                              model.EnvironmentalFireProbability,
-                                              model.DeviceId,
-                                              Fire = model.Fogo,
-                                              Smoke = model.Fumaça,
+                                              IsFogoBixo = model.Is_fogo_bixo,
+                                              EnvironmentalFireProbability = model.Environmental_fire_probability,
+                                              DeviceId = model.Device_id,
+                                              model.Fire,
+                                              model.Smoke,
                                               model.Humidity,
                                               model.Temperature,
                                           });
         }
+    }
+
+    public class FireDto
+    {
     }
 }

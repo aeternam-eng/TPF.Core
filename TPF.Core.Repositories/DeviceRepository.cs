@@ -47,7 +47,7 @@ namespace TPF.Core.Repositories
             var deviceResponseDictionary = new Dictionary<Guid, DeviceResponse>();
 
             using var connection = _helper.GetConnection();
-            await connection.QueryAsync<Device, FireDto, DeviceResponse>(
+            await connection.QueryAsync<Device, Measurement, DeviceResponse>(
                 sql,
                 map: (device, fireDto) =>
                 {
@@ -60,7 +60,7 @@ namespace TPF.Core.Repositories
                             Longitude = device.Longitude,
                             Name = device.Name,
                             User_Id = device.User_Id,
-                            Fires = new List<FireDto>()
+                            Fires = new List<Measurement>()
                         };
 
                     deviceResponseDictionary.TryAdd(device.Id, response);
