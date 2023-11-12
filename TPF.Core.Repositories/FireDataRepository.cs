@@ -14,11 +14,11 @@ namespace TPF.Core.Repositories
             _helper = helper;
         }
 
-        public async Task Insert(GetFireResponse model, string? imgUrl, Guid deviceId)
+        public async Task Insert(GetFireResponse model, Guid deviceId)
         {
             string sql = @"INSERT INTO fire_data
-                            (device_id, is_fogo_bixo, environmental_fire_probability, temperature, humidity, fire,smoke, image_url)
-                        VALUES(@DeviceId, @IsFogoBixo, @EnvironmentalFireProbability, @Temperature, @Humidity, @Fire, @Smoke, @ImageUrl)";
+                            (device_id, is_fogo_bixo, environmental_fire_probability, temperature, humidity, fire,smoke)
+                        VALUES(@DeviceId, @IsFogoBixo, @EnvironmentalFireProbability, @Temperature, @Humidity, @Fire, @Smoke)";
 
             using var connection = _helper.GetConnection();
             await connection.ExecuteAsync(sql,
@@ -31,7 +31,6 @@ namespace TPF.Core.Repositories
                                               Smoke = model.Fumaça,
                                               model.Humidity,
                                               model.Temperature,
-                                              ImageUrl = imgUrl
                                           });
         }
     }
